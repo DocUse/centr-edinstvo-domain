@@ -121,6 +121,10 @@
         downloadProxy.style.width = rect.width + 'px';
         downloadProxy.style.height = rect.height + 'px';
         downloadProxy.style.display = 'inline-flex';
+
+        iframe.contentWindow.postMessage({
+          type: 'edinstvo-download-proxy-ready'
+        }, '*');
       });
 
     })();
