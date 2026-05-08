@@ -47,6 +47,7 @@
     (function () {
       var iframe = document.getElementById('site-frame');
       if (!iframe) return;
+      var allowedOrigin = 'https://script.google.com';
 
       var appUrl = new URL('https://script.google.com/macros/s/AKfycby1S6ZSi3rWvsJGzi2hJtgUc956Wm4guD8cDAYa9zx-8ZpxEwk_-4D6iLllNpc1rw/exec');
       var wrapperUrl = new URL(window.location.href);
@@ -65,6 +66,25 @@
           (wrapperUrl.hash ? wrapperUrl.hash : '');
         window.history.replaceState(null, '', nextUrl);
       }
+
+      window.addEventListener('message', function (event) {
+        if (event.origin !== allowedOrigin) return;
+        if (!event.data || event.data.type !== 'edinstvo-download') return;
+
+        var path = typeof event.data.path === 'string' ? event.data.path : '';
+        var filename = typeof event.data.filename === 'string' ? event.data.filename : '';
+        if (!path || path.charAt(0) !== '/') return;
+
+        var link = document.createElement('a');
+        link.href = new URL(path, window.location.origin).toString();
+        if (filename) {
+          link.download = filename;
+        }
+
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      });
     })();
   </script>
 </body>
