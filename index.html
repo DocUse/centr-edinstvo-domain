@@ -55,6 +55,8 @@
         appUrl.search = wrapperUrl.search;
       }
 
+      appUrl.searchParams.set('wrapper_origin', wrapperUrl.origin);
+
       iframe.src = appUrl.toString();
 
       if (wrapperUrl.searchParams.has('login_token')) {
