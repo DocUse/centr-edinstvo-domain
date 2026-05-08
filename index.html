@@ -47,7 +47,6 @@
     (function () {
       var iframe = document.getElementById('site-frame');
       if (!iframe) return;
-      var allowedOrigin = 'https://script.google.com';
 
       var appUrl = new URL('https://script.google.com/macros/s/AKfycby1S6ZSi3rWvsJGzi2hJtgUc956Wm4guD8cDAYa9zx-8ZpxEwk_-4D6iLllNpc1rw/exec');
       var wrapperUrl = new URL(window.location.href);
@@ -68,7 +67,13 @@
       }
 
       window.addEventListener('message', function (event) {
-        if (event.origin !== allowedOrigin) return;
+        var isFromIframe = event.source === iframe.contentWindow;
+        var isAllowedOrigin =
+          event.origin === 'https://script.google.com' ||
+          /^https:\/\/([a-z0-9-]+\.)?script\.googleusercontent\.com$/i.test(event.origin) ||
+          /^https:\/\/([a-z0-9-]+\.)?googleusercontent\.com$/i.test(event.origin);
+
+        if (!isFromIframe || !isAllowedOrigin) return;
         if (!event.data || event.data.type !== 'edinstvo-download') return;
 
         var path = typeof event.data.path === 'string' ? event.data.path : '';
