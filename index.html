@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ЕДИНСТВО</title>
+  <meta
+    name="description"
+    content="Доменная оболочка для сайта ЕДИНСТВО поверх Google Apps Script."
+  />
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background: #0b1020;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+
+    .frame-wrap {
+      width: 100%;
+      height: 100vh;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+      background: #ffffff;
+    }
+  </style>
+</head>
+<body>
+  <div class="frame-wrap">
+    <iframe
+      id="site-frame"
+      title="ЕДИНСТВО"
+      loading="eager"
+      referrerpolicy="no-referrer-when-downgrade"
+      allow="clipboard-write"
+    ></iframe>
+  </div>
+  <script>
+    (function () {
+      var iframe = document.getElementById('site-frame');
+      if (!iframe) return;
+
+      var appUrl = new URL('https://script.google.com/macros/s/AKfycby1S6ZSi3rWvsJGzi2hJtgUc956Wm4guD8cDAYa9zx-8ZpxEwk_-4D6iLllNpc1rw/exec');
+      var wrapperUrl = new URL(window.location.href);
+
+      if (wrapperUrl.search) {
+        appUrl.search = wrapperUrl.search;
+      }
+
+      iframe.src = appUrl.toString();
+
+      if (wrapperUrl.searchParams.has('login_token')) {
+        wrapperUrl.searchParams.delete('login_token');
+        var nextUrl =
+          wrapperUrl.pathname +
+          (wrapperUrl.search ? wrapperUrl.search : '') +
+          (wrapperUrl.hash ? wrapperUrl.hash : '');
+        window.history.replaceState(null, '', nextUrl);
+      }
+    })();
+  </script>
+</body>
+</html>
