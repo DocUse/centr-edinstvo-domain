@@ -20,6 +20,7 @@
     }
 
     .frame-wrap {
+      position: relative;
       width: 100%;
       height: 100vh;
     }
@@ -30,6 +31,23 @@
       border: 0;
       display: block;
       background: #ffffff;
+    }
+
+    .download-proxy {
+      position: absolute;
+      display: none;
+      align-items: center;
+      z-index: 10;
+      color: #1453C8;
+      font-size: 0.95rem;
+      line-height: 1.4;
+      font-weight: 600;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .download-proxy:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
@@ -42,10 +60,19 @@
       referrerpolicy="no-referrer-when-downgrade"
       allow="clipboard-write"
     ></iframe>
+    <a
+      id="download-proxy"
+      class="download-proxy"
+      href="/fl-325565800085674-20260508121414.pdf"
+      download="Выписка_ЕГРИП_Комаров_Андрей_Александрович_08-05-2026.pdf"
+    >
+      Скачать выписку ЕГРИП
+    </a>
   </div>
   <script>
     (function () {
       var iframe = document.getElementById('site-frame');
+      var downloadProxy = document.getElementById('download-proxy');
       if (!iframe) return;
 
       var appUrl = new URL('https://script.google.com/macros/s/AKfycby1S6ZSi3rWvsJGzi2hJtgUc956Wm4guD8cDAYa9zx-8ZpxEwk_-4D6iLllNpc1rw/exec');
@@ -67,6 +94,34 @@
           (wrapperUrl.hash ? wrapperUrl.hash : '');
         window.history.replaceState(null, '', nextUrl);
       }
+
+      window.addEventListener('message', function (event) {
+        if (!downloadProxy) return;
+        if (event.source !== iframe.contentWindow) return;
+        if (!event.data || event.data.type !== 'edinstvo-download-link-rect') return;
+
+        var path = typeof event.data.path === 'string' ? event.data.path : '';
+        var filename = typeof event.data.filename === 'string' ? event.data.filename : '';
+        var text = typeof event.data.text === 'string' && event.data.text
+          ? event.data.text
+          : 'Скачать выписку ЕГРИП';
+        var rect = event.data.rect || {};
+        var visible = Boolean(event.data.visible);
+
+        if (!visible || !path) {
+          downloadProxy.style.display = 'none';
+          return;
+        }
+
+        downloadProxy.href = new URL(path, wrapperUrl.origin).toString();
+        downloadProxy.download = filename || 'download.pdf';
+        downloadProxy.textContent = text;
+        downloadProxy.style.left = rect.left + 'px';
+        downloadProxy.style.top = rect.top + 'px';
+        downloadProxy.style.width = rect.width + 'px';
+        downloadProxy.style.height = rect.height + 'px';
+        downloadProxy.style.display = 'inline-flex';
+      });
 
     })();
   </script>
