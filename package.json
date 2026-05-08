@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "scripts": {
-    "build": "vite build"
+    "build": "vite build && cp fl-325565800085674-20260508121414.pdf dist/ && cp Логотип.png dist/"
   },
   "devDependencies": {
     "vite": "^7.0.0"
