@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ЕДИНСТВО — анкета кандидата</title>
+  <title>Центр Единства РФ</title>
   <meta
     name="description"
-    content="ЕДИНСТВО — доменная оболочка для анкеты кандидата поверх Google Apps Script."
+    content="Центр Единства РФ — координация, проверенная информация и сопровождение на каждом этапе."
   />
   <link rel="icon" type="image/svg+xml" href="./favicon.svg?v=20260511a" />
   <link rel="shortcut icon" href="./favicon.svg?v=20260511a" />
@@ -39,7 +39,7 @@
   <div class="frame-wrap">
     <iframe
       id="site-frame"
-      title="ЕДИНСТВО — анкета кандидата"
+      title="Центр Единства РФ"
       loading="eager"
       referrerpolicy="no-referrer-when-downgrade"
       allow="clipboard-write"
@@ -50,7 +50,7 @@
       var iframe = document.getElementById('site-frame');
       if (!iframe) return;
 
-      var appUrl = new URL('https://script.google.com/macros/s/AKfycbzEaiFm9oVjORhqKG5UguXAPTVH2CLjcFg0tIkVy1jMkHsHKURuG2WtCMQ76M6v3VsY/exec');
+      var appUrl = new URL('https://script.google.com/macros/s/AKfycby1S6ZSi3rWvsJGzi2hJtgUc956Wm4guD8cDAYa9zx-8ZpxEwk_-4D6iLllNpc1rw/exec');
       var wrapperUrl = new URL(window.location.href);
 
       if (wrapperUrl.search) {
@@ -69,6 +69,7 @@
           (wrapperUrl.hash ? wrapperUrl.hash : '');
         window.history.replaceState(null, '', nextUrl);
       }
+
     })();
   </script>
 </body>
